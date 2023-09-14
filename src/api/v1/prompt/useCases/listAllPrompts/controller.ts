@@ -1,9 +1,7 @@
-import ListAllPromptsUseCase from './useCase'
+import { ListAllPromptsUseCase } from './useCase'
 
-class ListAllPromptsController {
-  async handle() {
+export class ListAllPromptsController {
+  static async handle() {
     return await ListAllPromptsUseCase.execute()
   }
 }
-
-export default new ListAllPromptsController()
