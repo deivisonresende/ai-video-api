@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@fastify/busboy':
+    specifier: ^1.2.1
+    version: 1.2.1
   '@fastify/multipart':
     specifier: ^7.7.3
     version: 7.7.3
