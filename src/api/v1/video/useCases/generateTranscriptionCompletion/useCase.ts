@@ -1,5 +1,6 @@
-import { openai } from "../../../../../lib/openai"
+import { OpenAIStream } from "ai"
 import { db } from "../../../../../lib/prisma"
+import { openai } from "../../../../../lib/openai"
 
 export class GenerateTranscriptionCompletionUseCase {
   static async execute({ videoId, template, temperature }:
@@ -14,9 +15,10 @@ export class GenerateTranscriptionCompletionUseCase {
     const response = await openai.chat.completions.create({
       model: 'gpt-3.5-turbo-16k',
       temperature,
-      messages: [ { role: 'user', content: promptMessage }]
+      messages: [ { role: 'user', content: promptMessage }],
+      stream: true
     })
 
-    return response.choices[0].message
+    return OpenAIStream(response)
   }
 }

@@ -1,9 +1,11 @@
+import { FastifyReply, FastifyRequest } from 'fastify'
+
 import { GenerateTranscriptionCompletionUseCase } from './useCase'
-import { FastifyRequest } from 'fastify'
+import { streamToResponse } from "ai"
 import { z } from 'zod'
 
 export class GenerateTranscriptionController {
-  static async handle(request: FastifyRequest) {
+  static async handle(request: FastifyRequest, reply: FastifyReply) {
     const { params, body } = request
 
     const paramsSchema = z.object({ videoId: z.string().uuid() })
@@ -16,6 +18,17 @@ export class GenerateTranscriptionController {
     const { videoId } = paramsSchema.parse(params)
     const { template, temperature } = bodySchema.parse(body)
 
-    return await GenerateTranscriptionCompletionUseCase.execute({ videoId, template, temperature })
+    const stream = await GenerateTranscriptionCompletionUseCase.execute({
+      videoId,
+      template,
+      temperature
+    })
+
+    streamToResponse(stream, reply.raw, {
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'POST'
+      }
+    })
   }
 }
