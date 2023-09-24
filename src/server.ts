@@ -1,8 +1,11 @@
 import { fastify } from "fastify";
-import { v1Routes } from "./api/v1/routes";
 import fastifyCors from "@fastify/cors";
+import { seed } from "../prisma/seed";
+import { v1Routes } from "./api/v1/routes";
 
 const app = fastify()
+
+seed()
 
 app
   .register(fastifyCors, { origin: '*' })
