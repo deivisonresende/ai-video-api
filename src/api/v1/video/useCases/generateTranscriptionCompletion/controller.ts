@@ -6,21 +6,20 @@ import { z } from 'zod'
 
 export class GenerateTranscriptionController {
   static async handle(request: FastifyRequest, reply: FastifyReply) {
-    const { params, body } = request
-
-    const paramsSchema = z.object({ videoId: z.string().uuid() })
+    const { body } = request
+    console.log(body)
 
     const bodySchema = z.object({
-      template: z.string(),
-      temperature: z.number().min(0).max(1).default(0.5)
+      prompt: z.string(),
+      videoId: z.string().uuid(),
+      temperature: z.number().min(0).max(1).default(0.5),
     })
 
-    const { videoId } = paramsSchema.parse(params)
-    const { template, temperature } = bodySchema.parse(body)
+    const { prompt, videoId, temperature } = bodySchema.parse(body)
 
     const stream = await GenerateTranscriptionCompletionUseCase.execute({
       videoId,
-      template,
+      prompt,
       temperature
     })
 
