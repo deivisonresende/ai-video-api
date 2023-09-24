@@ -29,7 +29,7 @@ Gerador de sugestões através do ChatGPT-3.5: ```POST /v1/videos/transcription/
 
 <br>
 
-> Para obter os exemplos das requisições, consulte o arquivo (postman-collection)[]
+> Para obter os exemplos das requisições, baixe o arquivo [postman-collection.json](./postman-collection.json) e inporte no seu workspace.
 
 Passos para execução
 --------------------
